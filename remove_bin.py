@@ -18,12 +18,19 @@ def get_bin_filename(ls_line):
             if '.' not in filename:
                 return type_mes, filename
 
+remove_file = os.remove
+
 def main(root=".", cmd="ls -l"):
     #pdb.set_trace()
     tmp_file = os.popen(cmd)
     for lino, line in enumerate(tmp_file):
         if lino!=0:
-             print get_bin_filename(line)
+            ret = get_bin_filename(line)
+            if ret is not None:
+                type_mes, file_path = ret
+                print 'remove file: ', file_path,"\t\t", type_mes,
+                remove_file(file_path)
+                print '\t...done'
 
 if __name__=="__main__":
     main()

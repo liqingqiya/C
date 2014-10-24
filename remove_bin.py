@@ -2,7 +2,21 @@
 #-*- coding:utf-8 -*-
 
 import os
+import os.path
 import pdb
+
+
+remove_file = os.remove
+path_join = os.path.join
+abspath = os.path.abspath
+
+
+def ls(root=".", cmd="ls -l"):
+    """
+    exec ls
+    """
+    cur_cmd = " ".join((cmd, root))
+    return os.popen(cur_cmd)
 
 
 def get_bin_filename(ls_line):
@@ -18,20 +32,31 @@ def get_bin_filename(ls_line):
             if '.' not in filename:
                 return type_mes, filename
 
-remove_file = os.remove
+def _abspath(root, filename):
+    local_path = path_join(root, filename)
+    return abspath(local_path)
 
-def main(root=".", cmd="ls -l"):
+
+def main(root=".", ignore=None):
     #pdb.set_trace()
-    tmp_file = os.popen(cmd)
-    for lino, line in enumerate(tmp_file):
-        if lino!=0:
-            ret = get_bin_filename(line)
-            if ret is not None:
-                type_mes, file_path = ret
-                print 'remove file: ', file_path,"\t\t", type_mes,
-                remove_file(file_path)
-                print '\t...done'
+    for cur_dir, sub_dir, files in os.walk(root):
+
+        if ignore is not None:
+            if ignore in cur_dir:
+                continue
+
+        #一个个目录处理
+        rc = ls(cur_dir)
+        for lino, line in enumerate(rc):
+            if lino != 0:
+                ret = get_bin_filename(line)
+                if ret is not None:
+                    type_mes, filename = ret
+                    print 'remove file: ', filename,"\t\t", type_mes,
+                    remove_file(_abspath(cur_dir, filename))
+                    print '\t...done'
+
 
 if __name__=="__main__":
-    main()
+    main(root=".", ignore="PROJECT")
 

@@ -21,7 +21,8 @@ int main(){
         timeout.tv_sec = 2;
         timeout.tv_usec = 500000;
 
-        result  = select(FD_SETSIZE, &testfds, (fd_set*)NULL, (fd_set*)NULL, &timeout);
+        //result  = select(FD_SETSIZE, &testfds, (fd_set*)NULL, (fd_set*)NULL, &timeout);
+        result  = select(FD_SETSIZE, &testfds, (fd_set*)NULL, (fd_set*)NULL, (struct timeval *)NULL);
 
         switch(result){
             case 0:

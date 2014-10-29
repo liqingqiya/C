@@ -22,15 +22,15 @@ int main(){
     (void)write(fd, byte_to_write, 1);
   }
   
-  region_1.1_type = F_RDLCK;
-  region_1.1_whence = SEEK_SET;
-  region_1.1_start = 10;
-  region_1.1_len = 20;
+  region_1.l_type = F_RDLCK;
+  region_1.l_whence = SEEK_SET;
+  region_1.l_start = 10;
+  region_1.l_len = 20;
 
-  region_2.1_type = F_WRLCK;
-  region_2.1_whence = SEEK_SET;
-  region_2.1_start = 40;
-  region_2.1_len = 10;
+  region_2.l_type = F_WRLCK;
+  region_2.l_whence = SEEK_SET;
+  region_2.l_start = 40;
+  region_2.l_len = 10;
 
   printf("process %d locking file\n", getpid());
 
@@ -41,4 +41,11 @@ int main(){
   res = fcntl(fd, F_SETLK, &region_2);
   if(res == -1)
     fprintf(stderr, "failed to lock region 2\n");
+
+  sleep(60);
+
+  printf("process %d closing file\n", getpid());
+  close(fd);
+  exit(EXIT_SUCCESS);
+  
 }

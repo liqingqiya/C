@@ -21,7 +21,7 @@ int main(){
   region_to_lock.l_start = 10;
   region_to_lock.l_len = 5;
 
-  printf("process %d, trying F_RDLCK, region %d to %d\n", getpid());
+  printf("process %d, trying F_RDLCK, region %d to %d\n", getpid(), (int)region_to_lock.l_start, (int)(region_to_lock.l_start+region_to_lock.l_len));
   
   res = fcntl(file_desc, F_SETLK, &region_to_lock);
   

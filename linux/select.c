@@ -14,6 +14,7 @@ int main(){
     struct timeval timeout;
 
     FD_ZERO(&inputs);
+    /*将文件描述符0加入到监听集合，标准输入的描述符号为0*/
     FD_SET(0, &inputs);
 
     while(1){
@@ -22,13 +23,16 @@ int main(){
         timeout.tv_usec = 500000;
 
         //result  = select(FD_SETSIZE, &testfds, (fd_set*)NULL, (fd_set*)NULL, &timeout);
+        //阻塞监听，等待事件发生
         result  = select(FD_SETSIZE, &testfds, (fd_set*)NULL, (fd_set*)NULL, (struct timeval *)NULL);
 
         switch(result){
             case 0:
+                //超时
                 printf("timeout\n");
                 break;
             case -1:
+                //错误
                 perror("select");
                 exit(1);
             default:

@@ -25,7 +25,7 @@ int main(){
 		perror("Semaphore initialization failed");
 		exit(EXIT_FAILURE);
 	}
-	res = pthread_create(&a_thread, NULL, thread_function, NULL)
+	res = pthread_create(&a_thread, NULL, thread_function, NULL);
 	if(res != 0){
 		perror("Thread creation failed");
 		exit(EXIT_FAILURE);

@@ -19,7 +19,7 @@ extern rb_tree_t *rb_tree;
 
 rb_tree_t *rb_tree_create(void);
 rb_tree_node_t *rb_tree_insert(rb_tree_t *rb_tree, int key);
-void rb_tree_delete(int key);
+void rb_tree_delete(rb_tree_t *rb_tree, rb_tree_node_t *node);
 void rb_tree_middle_show();
 
 static rb_tree_t *
